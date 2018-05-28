@@ -1,4 +1,5 @@
 library("hts")
+library("igraph")
 library("lubridate")
 library("tidyverse")
 library("timetk")
@@ -6,6 +7,8 @@ library("zoo")
 requireNamespace("magrittr")
 
 istat_demo <- read_csv("../istat-demographics/istat-demographics.csv.gz")
+
+region_adj <- read_csv("region_adj.csv")
 
 region_names <- read_csv("region_names.csv") %>%
                 rename(region_name = name)
@@ -52,4 +55,8 @@ deaths_test <- reduce(deaths$test, cbind) %>%
                magrittr::set_colnames(ts_names) %>%
                hts(nodes = list(n_regions, rep(2, n_regions)),
                    characters = c(3, 1))
+
+region_graph <- region_adj %>%
+                as.matrix %>%
+                graph_from_edgelist(directed = FALSE)
 
