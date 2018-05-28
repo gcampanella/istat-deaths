@@ -58,6 +58,8 @@ forecasts <- models %>%
                                                    levels = levels))
              )
 
+write_rds(forecasts, "models/univariate.rds")
+
 sw_forecast <- function(x, test) {
     test_tbl <- tk_tbl(test, rename_index = "dt") %>%
                 mutate(
