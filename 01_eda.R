@@ -15,7 +15,7 @@ deaths_total <- deaths %>%
 (deaths_total %>%
      mutate(
          month = parse_factor(month.abb[month], levels = month.abb),
-         year = parse_factor(year, seq(min(year), max(year)), ordered = TRUE)
+         year = parse_factor(year, full_seq(year, 1), ordered = TRUE)
      ) %>%
      ggplot(mapping = aes(x = month, y = deaths, group = year)) +
      geom_line(mapping = aes(color = year)) +
