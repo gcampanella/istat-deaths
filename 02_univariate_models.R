@@ -1,8 +1,10 @@
+library("bsts")
 library("forecast")
 library("sweep")
 library("tidyverse")
 
 source("load_data.R")
+source("bsts_wrapper.R")
 source("prophet_wrapper.R")
 
 # Number of months to forecast (*after* test set)
@@ -10,6 +12,13 @@ h <- 12
 
 # Confidence levels for prediction intervals
 levels <- c(80, 95)
+
+# State specification for BSTS models
+bsts_state_spec <- function(ts) {
+    state_spec <- AddLocalLinearTrend(NULL, ts)
+    state_spec <- AddSeasonal(state_spec, ts, nseasons = 12)
+    state_spec
+}
 
 # Estimate ARIMA and ETS models
 models <- deaths %>%
@@ -49,6 +58,11 @@ forecasts <- models %>%
                               ~ forecast(.x,
                                          h = length(.y) + h,
                                          level = levels)),
+                 bsts = map2(train, test,
+                             ~ bsts_forecast(.x, .y,
+                                             state_spec = bsts_state_spec(.x),
+                                             h = h,
+                                             levels = levels)),
                  ets = map2(ets, test,
                             ~ forecast(.x,
                                        h = length(.y) + h,
