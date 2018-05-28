@@ -1,6 +1,7 @@
 library("bsts")
 library("timetk")
 library("zoo")
+requireNamespace("magrittr")
 
 bsts_forecast <- function(train, test, state_spec, h, levels) {
     model <- bsts(train, state.specification = state_spec,
