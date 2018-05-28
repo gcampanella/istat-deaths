@@ -1,5 +1,6 @@
 library("prophet")
 library("timetk")
+library("zoo")
 requireNamespace("magrittr")
 
 make_future_tbl <- function(ts, h = 12) {
