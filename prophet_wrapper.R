@@ -53,9 +53,7 @@ prophet_forecast <- function(train, test, h, levels) {
     models <- map(levels / 100,
                   ~ prophet_fit(train, interval.width = ., seed = 42))
     fitted <- prophet_fitted(models[[1]])
-
     predictions <- map(models, prophet_predict, ts = test, h = h)
-
     start <- predictions[[1]]$dt %>% min
     mean <- predictions[[1]]$mean %>%
             tk_ts(start = c(year(start), month(start)), frequency = 12)
