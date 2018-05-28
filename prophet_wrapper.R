@@ -1,6 +1,6 @@
-library("magrittr")
 library("prophet")
 library("timetk")
+requireNamespace("magrittr")
 
 make_future_tbl <- function(ts, h = 12) {
     tibble(ds = ts %>%
@@ -59,11 +59,11 @@ prophet_forecast <- function(train, test, h, levels) {
             tk_ts(start = c(year(start), month(start)), frequency = 12)
     lower <- bind_cols(map(predictions, `[`, "lower")) %>%
              as.matrix %>%
-             set_colnames(sprintf("%d%%", levels)) %>%
+             magrittr::set_colnames(sprintf("%d%%", levels)) %>%
             tk_ts(start = c(year(start), month(start)), frequency = 12)
     upper <- bind_cols(map(predictions, `[`, "upper")) %>%
              as.matrix %>%
-             set_colnames(sprintf("%d%%", levels)) %>%
+             magrittr::set_colnames(sprintf("%d%%", levels)) %>%
              tk_ts(start = c(year(start), month(start)), frequency = 12)
     structure(list(
         method = "Prophet",
