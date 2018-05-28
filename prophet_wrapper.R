@@ -60,7 +60,7 @@ prophet_forecast <- function(train, test, h, levels) {
     lower <- bind_cols(map(predictions, `[`, "lower")) %>%
              as.matrix %>%
              magrittr::set_colnames(sprintf("%d%%", levels)) %>%
-            tk_ts(start = c(year(start), month(start)), frequency = 12)
+             tk_ts(start = c(year(start), month(start)), frequency = 12)
     upper <- bind_cols(map(predictions, `[`, "upper")) %>%
              as.matrix %>%
              magrittr::set_colnames(sprintf("%d%%", levels)) %>%
