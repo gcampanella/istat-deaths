@@ -1,5 +1,5 @@
-library("tidyverse")
 library("hts")
+library("tidyverse")
 
 source("load_data.R")
 
