@@ -58,5 +58,6 @@ deaths_test <- reduce(deaths$test, cbind) %>%
 
 region_graph <- region_adj %>%
                 as.matrix %>%
-                graph_from_edgelist(directed = FALSE)
+                graph_from_edgelist(directed = FALSE) %>%
+                add_vertices(n_distinct(deaths$region) - length(V(.)))
 
