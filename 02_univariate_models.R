@@ -45,10 +45,6 @@ forecasts <- models %>%
                                ~ snaive(.x,
                                         h = length(.y) + h,
                                         level = levels)),
-                 rwf = map2(train, test,
-                            ~ rwf(.x,
-                                  h = length(.y) + h,
-                                  level = levels)),
                  rwf_drift = map2(train, test,
                                   ~ rwf(.x,
                                         h = length(.y) + h,
@@ -133,7 +129,7 @@ phi <- (1 + sqrt(5)) / 2
                           y = value)) +
      geom_boxplot(color = "darkgray") +
      geom_jitter(mapping = aes(color = model), width = 0.25, height = 0) +
-     scale_color_brewer(type = "qual", palette = "Set1") +
+     scale_color_brewer(type = "qual", palette = "Dark2") +
      labs(x = "Region", y = "MAPE") +
      theme(axis.text.x = element_text(angle = 45, hjust = 1))) %>%
     ggsave(filename = "plots/mape_by_region.pdf",
